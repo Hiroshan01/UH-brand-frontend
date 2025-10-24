@@ -17,7 +17,7 @@ function App() {
         <Header />
         <Routes path="/*">
           <Route path="/" element={<Home />} />
-          <Route path="/admin/*" element={<AdminPannel />} />
+
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           {/* 
@@ -26,6 +26,8 @@ function App() {
     
           <Route path="/test-page" element={<TestPage />} /> */}
           <Route path="/*" element={<h1>404 Not Found!</h1>} />
+
+          <Route path="/admin/*" element={<AdminPannel />} />
         </Routes>
         <Footer />
       </div>

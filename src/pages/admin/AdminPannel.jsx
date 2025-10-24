@@ -1,6 +1,7 @@
 import { Link, Route, Routes } from "react-router-dom";
 import { Package, Users, ShoppingCart, Star } from "lucide-react";
 import AdminProductPage from "./AdminProductPage";
+import AddProduct from "./Product/AddProduct";
 
 function AdminPannel() {
   return (
@@ -71,6 +72,8 @@ function AdminPannel() {
               </div>
             }
           />
+
+          <Route path="/add-product" element={<AddProduct />} />
         </Routes>
       </div>
     </div>
