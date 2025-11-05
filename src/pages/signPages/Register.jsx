@@ -13,6 +13,11 @@ function Register() {
   const navigate = useNavigate();
 
   async function handleLogin() {
+    if (!firstName || !lastName || !email || !password) {
+      toast.error("Fill All Fields!");
+      return;
+    }
+    
     try {
       await axios.post(`${import.meta.env.VITE_API_URL}users`, {
         firstName,

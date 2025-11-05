@@ -43,17 +43,26 @@ function Header() {
               </Link>
             </li>
             <li>
-              <Link to="/about" className="hover:text-blue-600 transition font-bold">
+              <Link
+                to="/about"
+                className="hover:text-blue-600 transition font-bold"
+              >
                 About
               </Link>
             </li>
             <li>
-              <Link to="/services" className="hover:text-blue-600 transition font-bold">
+              <Link
+                to="/services"
+                className="hover:text-blue-600 transition font-bold"
+              >
                 Services
               </Link>
             </li>
             <li>
-              <Link to="/contact" className="hover:text-blue-600 transition font-bold">
+              <Link
+                to="/contact"
+                className="hover:text-blue-600 transition font-bold"
+              >
                 Contact
               </Link>
             </li>
@@ -62,33 +71,33 @@ function Header() {
           {/* Desktop Icons - Mobile  hide  */}
           <div className="hidden md:flex gap-2 items-center">
             <button className="bg-white text-blue-600 p-2 rounded-lg hover:bg-blue-100 transition">
-              <SearchIcon />
+              <SearchIcon style={{ color: "black" }} />
             </button>
             <button className="bg-white text-blue-600 p-2 rounded-lg hover:bg-blue-100 transition">
-              <ShoppingCartIcon />
+              <ShoppingCartIcon style={{ color: "black" }} />
             </button>
-            
+
             {/* Person Icon with Dropdown */}
             <div className="relative">
               <button
                 onClick={toggleDropdown}
                 className="bg-white text-blue-600 p-2 rounded-lg hover:bg-blue-100 transition"
               >
-                <PersonIcon />
+                <PersonIcon style={{ color: "black" }} />
               </button>
 
               {/* Dropdown Menu */}
               {isDropDown && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl py-2 z-50">
                   <Link
-                    to="/signin"
+                    to="/login"
                     className="block px-4 py-2 text-gray-800 hover:bg-blue-100 transition font-bold"
                     onClick={() => setIsDropDown(false)}
                   >
                     Login
                   </Link>
                   <Link
-                    to="/signup"
+                    to="/register"
                     className="block px-4 py-2 text-gray-800 hover:bg-blue-100 transition font-bold"
                     onClick={() => setIsDropDown(false)}
                   >
@@ -104,7 +113,11 @@ function Header() {
             onClick={toggleMobileMenu}
             className="md:hidden text-blue-600 p-2"
           >
-            {isMobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
+            {isMobileMenuOpen ? (
+              <CloseIcon style={{ color: "black" }} />
+            ) : (
+              <MenuIcon style={{ color: "black" }} />
+            )}
           </button>
         </div>
 
@@ -154,27 +167,27 @@ function Header() {
             {/* Mobile Icons */}
             <div className="flex gap-2 mt-4 pt-4 border-t">
               <button className="bg-white text-blue-600 p-2 rounded-lg hover:bg-blue-100 transition">
-                <SearchIcon />
+                <SearchIcon style={{ color: "black" }} />
               </button>
               <button className="bg-white text-blue-600 p-2 rounded-lg hover:bg-blue-100 transition">
-                <ShoppingCartIcon />
+                <ShoppingCartIcon style={{ color: "black" }} />
               </button>
               <button className="bg-white text-blue-600 p-2 rounded-lg hover:bg-blue-100 transition">
-                <PersonIcon />
+                <PersonIcon style={{ color: "black" }} />
               </button>
             </div>
 
             {/* Mobile Login/Register Buttons */}
             <div className="flex flex-col gap-2 mt-4">
               <Link
-                to="/signin"
-                className="block px-4 py-2 text-center bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-bold"
+                to="/login"
+                className="block px-4 py-2 text-center bg-black text-white rounded-lg hover:bg-gray-800 transition font-bold"
                 onClick={toggleMobileMenu}
               >
                 Login
               </Link>
               <Link
-                to="/signup"
+                to="/register"
                 className="block px-4 py-2 text-center bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition font-bold"
                 onClick={toggleMobileMenu}
               >
