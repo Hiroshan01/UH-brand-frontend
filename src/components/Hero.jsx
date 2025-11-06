@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function Hero() {
   // Images array - මේ තියෙන්නේ අපේ ඡායාරූප 5ක array එකක්
@@ -86,9 +87,12 @@ export default function Hero() {
               <p className="text-xl md:text-2xl mb-8 animate-fade-in font-sans">
                 {image.description}
               </p>
-              <button className="px-8 py-3 bg-white text-gray-900 rounded-full font-semibold hover:bg-gray-100 transition-all duration-300 hover:scale-105">
-                Product
-              </button>
+              <Link
+                to="/products"
+                className="px-8 py-3 bg-white text-gray-900 rounded-full font-semibold hover:bg-gray-500 transition-all duration-300 hover:scale-105"
+              >
+                Shop Now
+              </Link>
             </div>
           </div>
         ))}

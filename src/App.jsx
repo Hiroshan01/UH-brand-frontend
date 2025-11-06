@@ -8,6 +8,7 @@ import AdminPannel from "./pages/admin/AdminPannel";
 import { LogIn } from "lucide-react";
 import Login from "./pages/signPages/Login";
 import Register from "./pages/signPages/Register";
+import Product from "./pages/client/Product";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
 
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/products" element={<Product/>}/>
           {/* 
           <Route path="/signIn" element={<SignIn />} />
           <Route path="/signUp" element={<SignUp />} />

@@ -38,30 +38,30 @@ function Header() {
           {/* Desktop Menu Items - Mobile hide  */}
           <ul className="hidden md:flex gap-6">
             <li>
-              <Link to="/" className="hover:text-blue-600 transition font-bold">
+              <Link to="/" className="hover:text-gray-400 transition font-bold">
                 Home
               </Link>
             </li>
             <li>
               <Link
                 to="/about"
-                className="hover:text-blue-600 transition font-bold"
+                className="hover:text-gray-400 transition font-bold"
               >
                 About
               </Link>
             </li>
             <li>
               <Link
-                to="/services"
-                className="hover:text-blue-600 transition font-bold"
+                to="/Products"
+                className="hover:text-gray-400 transition font-bold"
               >
-                Services
+                Product
               </Link>
             </li>
             <li>
               <Link
                 to="/contact"
-                className="hover:text-blue-600 transition font-bold"
+                className="hover:text-gray-400 transition font-bold"
               >
                 Contact
               </Link>
