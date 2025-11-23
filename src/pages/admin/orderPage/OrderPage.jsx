@@ -80,6 +80,9 @@ function OrderPage() {
 
   return (
     <div className="w-full h-full overflow-y-auto bg-gray-50 p-6 relative">
+      <h1 className="text-3xl font-bold text-slate-800 bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent mb-4">
+        Order Management
+      </h1>
       {isLoading ? (
         <h1 className="text-3xl font-bold text-slate-800 bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent">
           Loading...
