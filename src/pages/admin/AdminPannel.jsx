@@ -3,11 +3,20 @@ import { Package, Users, ShoppingCart, Star } from "lucide-react";
 import AdminProductPage from "./AdminProductPage";
 import AddProduct from "./Product/AddProduct";
 import EditProduct from "./Product/EditProduct";
+import OrderPage from "./orderPage/OrderPage";
 
 function AdminPannel() {
   return (
     <div className="w-full h-screen bg-gradient-to-br from-slate-100 to-slate-200 flex">
       <div className="w-[300px] h-screen bg-gradient-to-b from-black-600 to-blue-800 flex items-center flex-col shadow-2xl py-8 gap-4">
+        <Link
+          to="/admin/"
+          className="w-4/5 px-6 py-4 bg-white text-black-700 font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 text-center hover:bg-indigo-50 flex items-center justify-center gap-3"
+        >
+          <Package className="w-5 h-5" />
+          Admin Home
+        </Link>
+
         <Link
           to="/admin/products"
           className="w-4/5 px-6 py-4 bg-white text-black-700 font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 text-center hover:bg-indigo-50 flex items-center justify-center gap-3"
@@ -43,6 +52,7 @@ function AdminPannel() {
           <Route
             path="/users"
             element={
+              
               <div className="flex items-center gap-4">
                 <Users className="w-12 h-12 text-indigo-600" />
                 <h1 className="text-5xl font-bold text-slate-800 bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent">
@@ -54,12 +64,7 @@ function AdminPannel() {
           <Route
             path="/orders"
             element={
-              <div className="flex items-center gap-4">
-                <ShoppingCart className="w-12 h-12 text-indigo-600" />
-                <h1 className="text-5xl font-bold text-slate-800 bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent">
-                  Orders
-                </h1>
-              </div>
+              <OrderPage />
             }
           />
           <Route
@@ -75,7 +80,8 @@ function AdminPannel() {
           />
 
           <Route path="/add-product" element={<AddProduct />} />
-           <Route path="/edit-product" element={<EditProduct/>} />
+          <Route path="/edit-product" element={<EditProduct />} />
+          
         </Routes>
       </div>
     </div>
