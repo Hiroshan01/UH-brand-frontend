@@ -1,5 +1,6 @@
 import React from "react";
 import { ShoppingCart, Heart } from "lucide-react";
+import { Link } from "react-router-dom";
 
 function ProductCard({ product }) {
   const discountPercentage =
@@ -11,7 +12,10 @@ function ProductCard({ product }) {
       : 0;
 
   return (
-    <div className="w-[300px] h-[420px] bg-white shadow-lg rounded-xl m-2 flex flex-col overflow-hidden hover:shadow-2xl transition-shadow duration-300 relative group m-5">
+    <Link
+      to={"/product-overview/" + product.productId}
+      className="w-[300px] h-[420px] bg-white shadow-lg rounded-xl m-2 flex flex-col overflow-hidden hover:shadow-2xl transition-shadow duration-300 relative group m-5"
+    >
       {/*(Discount Label) */}
       {discountPercentage > 0 && (
         <div className="absolute top-3 left-3 bg-gray-700 text-white px-3 py-1 rounded-full text-sm font-bold z-10">
@@ -90,7 +94,7 @@ function ProductCard({ product }) {
           {product.stock > 0 ? "Add to cart" : "Out Of Stock"}
         </button>
       </div>
-    </div>
+    </Link>
   );
 }
 

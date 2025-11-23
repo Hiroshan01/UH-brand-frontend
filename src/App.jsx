@@ -9,6 +9,9 @@ import { LogIn } from "lucide-react";
 import Login from "./pages/signPages/Login";
 import Register from "./pages/signPages/Register";
 import Product from "./pages/client/Product";
+import ProductOverview from "./pages/client/ProductOverview";
+import ProductCart from "./pages/client/ProductCart";
+import CheckOut from "./pages/client/CheckOut";
 
 function App() {
   return (
@@ -21,7 +24,10 @@ function App() {
 
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/products" element={<Product/>}/>
+          <Route path="/products" element={<Product />} />
+          <Route path="/product-overview/:id" element={<ProductOverview />} />
+          <Route path="/cart" element={<ProductCart />} />
+          <Route path="/checkout" element={<CheckOut />} />
           {/* 
           <Route path="/signIn" element={<SignIn />} />
           <Route path="/signUp" element={<SignUp />} />

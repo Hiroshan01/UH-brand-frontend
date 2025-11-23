@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 import PersonIcon from "@mui/icons-material/Person";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import SearchIcon from "@mui/icons-material/Search";
-import MenuIcon from "@mui/icons-material/Menu"; // මේක add කරන්න
-import CloseIcon from "@mui/icons-material/Close"; // මේක add කරන්න
+import MenuIcon from "@mui/icons-material/Menu"; 
+import CloseIcon from "@mui/icons-material/Close"; 
 import { useState } from "react";
 import logo from "../assets/logo.jpg";
 
@@ -73,9 +73,12 @@ function Header() {
             <button className="bg-white text-blue-600 p-2 rounded-lg hover:bg-blue-100 transition">
               <SearchIcon style={{ color: "black" }} />
             </button>
-            <button className="bg-white text-blue-600 p-2 rounded-lg hover:bg-blue-100 transition">
+            <Link
+              to="/cart"
+              className="bg-white text-blue-600 p-2 rounded-lg hover:bg-blue-100 transition"
+            >
               <ShoppingCartIcon style={{ color: "black" }} />
-            </button>
+            </Link>
 
             {/* Person Icon with Dropdown */}
             <div className="relative">
@@ -169,9 +172,12 @@ function Header() {
               <button className="bg-white text-blue-600 p-2 rounded-lg hover:bg-blue-100 transition">
                 <SearchIcon style={{ color: "black" }} />
               </button>
-              <button className="bg-white text-blue-600 p-2 rounded-lg hover:bg-blue-100 transition">
+              <Link
+                to="/cart"
+                className="bg-white text-blue-600 p-2 rounded-lg hover:bg-blue-100 transition"
+              >
                 <ShoppingCartIcon style={{ color: "black" }} />
-              </button>
+              </Link>
               <button className="bg-white text-blue-600 p-2 rounded-lg hover:bg-blue-100 transition">
                 <PersonIcon style={{ color: "black" }} />
               </button>
