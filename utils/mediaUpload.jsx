@@ -25,7 +25,7 @@ export default function mediaUpload(file) {
       .then((uploadResult) => {
         // Check if upload was successful
         if (uploadResult.error) {
-          console.error("Upload error:", uploadResult.error);
+          // console.error("Upload error:", uploadResult.error);
           reject("Upload failed: " + uploadResult.error.message);
           return;
         }
@@ -36,7 +36,7 @@ export default function mediaUpload(file) {
         resolve(data.publicUrl);
       })
       .catch((error) => {
-        console.error("Supabase error:", error);
+        //console.error("Supabase error:", error);
         reject("Error occurred in supabase connection: " + error.message);
       });
   });

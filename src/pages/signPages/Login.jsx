@@ -8,9 +8,22 @@ import { useNavigate } from "react-router-dom";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   async function handleLogin() {
+    if (!email || !password) {
+      toast.error("Please enter both email and password");
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+
+    setLoading(true);
+
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}users/login`,
@@ -19,53 +32,104 @@ function Login() {
           password: password,
         }
       );
+
       toast.success("Login Successful");
-      console.log(response.data);
+
       localStorage.setItem("token", response.data.token);
+      window.dispatchEvent(new Event("loginSuccess"));
       if (response.data.role === "admin") {
         navigate("/admin");
       } else {
         navigate("/");
       }
     } catch (e) {
-      toast.error(e.response?.data || "Login failed");
+      if (e.response) {
+        const status = e.response.status;
+        const errorMessage = e.response.data?.message || e.response.data;
+
+        if (status === 401 || status === 400) {
+          toast.error("Incorrect email or password");
+        } else if (status === 404) {
+          toast.error("User not found");
+        } else if (status === 500) {
+          toast.error("Server error. Please try again later");
+        } else {
+          toast.error(errorMessage || "Login failed");
+        }
+      } else if (e.request) {
+        toast.error("Network error. Please check your connection");
+      } else {
+        toast.error("An unexpected error occurred");
+      }
+    } finally {
+      setLoading(false);
     }
   }
 
-  return (
-    <div className="w-full h-screen bg-[url('/hero-1.jpg')] bg-center bg-cover flex  justify-evenly items-center">
-      <div className="w-[50%] h-full"> </div>
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleLogin();
+    }
+  };
 
-      <div className="w-[50%] h-full flex justify-center items-center">
-        <div className="w-[400px] h-[500px] backdrop-blur-md rounded-2xl shadow-2xl flex flex-col justify-center items-center">
-          <div>
-            <h1 className="font-serif font-bold text-2xl">
-              Sign Up <LockOpenIcon fontSize="large" />
+  return (
+    <div className="w-full min-h-screen bg-[url('/hero-1.jpg')] bg-center bg-cover flex flex-col justify-center items-center p-4">
+      {/* Empty Left Section: Hidden on mobile, only visible on screens sized 'sm' and up. */}
+      <div className="hidden sm:w-[50%] sm:h-full"></div>
+
+      <div className="w-full flex justify-center items-center sm:w-[50%] sm:h-full">
+        {/* Login Box: Full width on mobile, constrained by max-w-sm, dynamic height (min-h-[400px]) */}
+        <div className="w-full max-w-sm p-6 backdrop-blur-md bg-white/10 rounded-2xl shadow-2xl flex flex-col justify-center items-center">
+          {/* Header */}
+          <div className="mb-6">
+            <h1 className="font-serif font-extrabold text-3xl text-white">
+              Sign In <LockOpenIcon fontSize="large" className="text-white" />
             </h1>
           </div>
 
+          {/* Email Input: w-full for responsiveness, improved styling (rounded-lg, focus ring) */}
           <input
             onChange={(e) => {
               setEmail(e.target.value);
             }}
+            onKeyPress={handleKeyPress}
             placeholder="Email"
             value={email}
-            className="w-[300px] h-[50px] border rounded-[10px] my-[20px] px-4"
+            type="email"
+            disabled={loading}
+            className="w-full h-12 border rounded-lg my-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
           />
+
+          {/* Password Input: w-full for responsiveness, improved styling */}
           <input
             onChange={(e) => {
               setPassword(e.target.value);
             }}
+            onKeyPress={handleKeyPress}
             placeholder="Password"
             value={password}
             type="password"
-            className="w-[300px] h-[50px] border rounded-[10px] my-[20px] px-4"
+            disabled={loading}
+            className="w-full h-12 border rounded-lg my-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
           />
+
+          {/* Button: w-full for responsiveness, enhanced styling and loading state */}
           <button
             onClick={handleLogin}
-            className="w-[300px] h-[50px] bg-black rounded-[20px] text-[20px] font-bold text-white"
+            disabled={loading}
+            className="w-full h-12 mt-6 bg-black rounded-full text-xl font-bold text-white transition-colors hover:bg-gray-800 disabled:bg-gray-600 disabled:text-gray-300 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
-            <LoginIcon /> LOGIN
+            {loading ? (
+              <>
+                {/* Loading Spinner */}
+                <div className="w-5 h-5 border-3 border-white border-t-transparent rounded-full animate-spin"></div>
+                Signing In...
+              </>
+            ) : (
+              <>
+                <LoginIcon /> LOGIN
+              </>
+            )}
           </button>
         </div>
       </div>

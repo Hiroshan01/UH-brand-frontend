@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 function ImageSlider(props) {
-  const images = props.images || []; // Ensure images is an array to prevent errors
+  const images = props.images || []; 
   const [currentIndex, setCurrentIndex] = useState(0);
 
   if (images.length === 0) {
@@ -36,8 +36,8 @@ function ImageSlider(props) {
               border-2 transition-all duration-200
               ${
                 index === currentIndex
-                  ? "border-gray-900 shadow-md" // Active thumbnail
-                  : "border-transparent hover:border-gray-400" // Inactive thumbnail
+                  ? "border-gray-900 shadow-md" 
+                  : "border-transparent hover:border-gray-400"
               }
             `}
             src={image}

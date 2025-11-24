@@ -17,8 +17,9 @@ function Register() {
       toast.error("Fill All Fields!");
       return;
     }
-    
+
     try {
+      // Assuming VITE_API_URL is correctly configured in your environment
       await axios.post(`${import.meta.env.VITE_API_URL}users`, {
         firstName,
         lastName,
@@ -28,28 +29,34 @@ function Register() {
       toast.success("Registration Successful");
       navigate("/login");
     } catch (e) {
-      toast.error(e.response?.data || "Login failed");
+      // Accessing e.response?.data is safer
+      toast.error(e.response?.data?.message || "Registration failed");
     }
   }
 
   return (
-    <div className="w-full h-screen bg-[url('/hero-1.jpg')] bg-center bg-cover flex  justify-evenly items-center">
-      <div className="w-[50%] h-full"> </div>
+ 
+    <div className="w-full min-h-screen bg-[url('/hero-1.jpg')] bg-center bg-cover flex flex-col justify-center items-center p-4">
+      
 
-      <div className="w-[50%] h-full flex justify-center items-center">
-        <div className="w-[400px] h-[500px] backdrop-blur-md rounded-2xl shadow-2xl flex flex-col justify-center items-center">
-          <div>
-            <h1 className="font-serif font-bold text-2xl">
-              Register <HowToRegIcon fontSize="large" />
+      <div className="hidden sm:w-[50%] sm:h-full"> </div>
+      <div className="w-full flex justify-center items-center sm:w-[50%] sm:h-full">
+        <div className="w-full max-w-sm p-6 backdrop-blur-md bg-white/10 rounded-2xl shadow-2xl flex flex-col justify-center items-center">
+          
+          {/* Header */}
+          <div className="mb-4">
+            <h1 className="font-serif font-bold text-3xl text-white">
+              Register <HowToRegIcon fontSize="large" className="text-white" />
             </h1>
           </div>
+          
           <input
             onChange={(e) => {
               setFirstName(e.target.value);
             }}
             placeholder="First Name"
             value={firstName}
-            className="w-[300px] h-[50px] border rounded-[10px] my-[20px] px-4"
+            className="w-full h-12 border rounded-lg my-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <input
             onChange={(e) => {
@@ -57,7 +64,7 @@ function Register() {
             }}
             placeholder="Last Name"
             value={lastName}
-            className="w-[300px] h-[50px] border rounded-[10px] my-[20px] px-4"
+            className="w-full h-12 border rounded-lg my-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <input
             onChange={(e) => {
@@ -65,7 +72,8 @@ function Register() {
             }}
             placeholder="Email"
             value={email}
-            className="w-[300px] h-[50px] border rounded-[10px] my-[20px] px-4"
+            type="email" 
+            className="w-full h-12 border rounded-lg my-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <input
             onChange={(e) => {
@@ -74,11 +82,13 @@ function Register() {
             placeholder="Password"
             value={password}
             type="password"
-            className="w-[300px] h-[50px] border rounded-[10px] my-[20px] px-4"
+            className="w-full h-12 border rounded-lg my-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+          
+          {/* Button: Use w-full for full width on mobile. */}
           <button
             onClick={handleLogin}
-            className="w-[300px] h-[50px] bg-black rounded-[20px] text-[20px] font-bold text-white"
+            className="w-full h-12 mt-4 bg-black rounded-full text-lg font-bold text-white transition duration-300 hover:bg-gray-800"
           >
             <LoginIcon /> Register
           </button>

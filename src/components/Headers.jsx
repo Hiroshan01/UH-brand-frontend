@@ -2,14 +2,35 @@ import { Link } from "react-router-dom";
 import PersonIcon from "@mui/icons-material/Person";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import SearchIcon from "@mui/icons-material/Search";
-import MenuIcon from "@mui/icons-material/Menu"; 
-import CloseIcon from "@mui/icons-material/Close"; 
-import { useState } from "react";
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
+import { useEffect, useState } from "react";
 import logo from "../assets/logo.jpg";
+import UserTag from "./UserTag";
 
 function Header() {
   const [isDropDown, setIsDropDown] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // Mobile menu state
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const checkAuthStatus = () => {
+      const token = localStorage.getItem("token");
+      setIsLoggedIn(token !== null);
+    };
+
+    checkAuthStatus();
+
+    window.addEventListener("storage", checkAuthStatus);
+    window.addEventListener("logout", checkAuthStatus);
+    window.addEventListener("loginSuccess", checkAuthStatus);
+
+    return () => {
+      window.removeEventListener("storage", checkAuthStatus);
+      window.removeEventListener("logout", checkAuthStatus);
+      window.removeEventListener("loginSuccess", checkAuthStatus);
+    };
+  }, []);
 
   const toggleDropdown = () => {
     setIsDropDown(!isDropDown);
@@ -35,19 +56,11 @@ function Header() {
             </Link>
           </div>
 
-          {/* Desktop Menu Items - Mobile hide  */}
+          {/* Desktop Menu Items */}
           <ul className="hidden md:flex gap-6">
             <li>
               <Link to="/" className="hover:text-gray-400 transition font-bold">
                 Home
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/about"
-                className="hover:text-gray-400 transition font-bold"
-              >
-                About
               </Link>
             </li>
             <li>
@@ -59,16 +72,13 @@ function Header() {
               </Link>
             </li>
             <li>
-              <Link
-                to="/contact"
-                className="hover:text-gray-400 transition font-bold"
-              >
+              <Link to="/" className="hover:text-gray-400 transition font-bold">
                 Contact
               </Link>
             </li>
           </ul>
 
-          {/* Desktop Icons - Mobile  hide  */}
+          {/* Desktop Icons and User Section */}
           <div className="hidden md:flex gap-2 items-center">
             <button className="bg-white text-blue-600 p-2 rounded-lg hover:bg-blue-100 transition">
               <SearchIcon style={{ color: "black" }} />
@@ -80,38 +90,46 @@ function Header() {
               <ShoppingCartIcon style={{ color: "black" }} />
             </Link>
 
-            {/* Person Icon with Dropdown */}
-            <div className="relative">
-              <button
-                onClick={toggleDropdown}
-                className="bg-white text-blue-600 p-2 rounded-lg hover:bg-blue-100 transition"
-              >
-                <PersonIcon style={{ color: "black" }} />
-              </button>
+            {/*  User login UserTag */}
+            {isLoggedIn ? (
+              <UserTag
+                imgLink="https://w7.pngwing.com/pngs/529/832/png-transparent-computer-icons-avatar-user-profile-avatar.png"
+                onLogout={() => setIsLoggedIn(false)}
+              />
+            ) : (
+              /* Login dropdown */
+              <div className="relative">
+                <button
+                  onClick={toggleDropdown}
+                  className="bg-white text-blue-600 p-2 rounded-lg hover:bg-blue-100 transition"
+                >
+                  <PersonIcon style={{ color: "black" }} />
+                </button>
 
-              {/* Dropdown Menu */}
-              {isDropDown && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl py-2 z-50">
-                  <Link
-                    to="/login"
-                    className="block px-4 py-2 text-gray-800 hover:bg-blue-100 transition font-bold"
-                    onClick={() => setIsDropDown(false)}
-                  >
-                    Login
-                  </Link>
-                  <Link
-                    to="/register"
-                    className="block px-4 py-2 text-gray-800 hover:bg-blue-100 transition font-bold"
-                    onClick={() => setIsDropDown(false)}
-                  >
-                    Registration
-                  </Link>
-                </div>
-              )}
-            </div>
+                {/* Dropdown Menu */}
+                {isDropDown && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl py-2 z-50">
+                    <Link
+                      to="/login"
+                      className="block px-4 py-2 text-gray-800 hover:bg-blue-100 transition font-bold"
+                      onClick={() => setIsDropDown(false)}
+                    >
+                      Login
+                    </Link>
+                    <Link
+                      to="/register"
+                      className="block px-4 py-2 text-gray-800 hover:bg-blue-100 transition font-bold"
+                      onClick={() => setIsDropDown(false)}
+                    >
+                      Registration
+                    </Link>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
-          {/* Mobile Hamburger Icon - Desktop hide */}
+          {/* Mobile Hamburger Icon */}
           <button
             onClick={toggleMobileMenu}
             className="md:hidden text-blue-600 p-2"
@@ -124,7 +142,7 @@ function Header() {
           </button>
         </div>
 
-        {/* Mobile Menu - Mobile */}
+        {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div className="md:hidden mt-4 pb-4">
             {/* Mobile Menu Items */}
@@ -138,27 +156,19 @@ function Header() {
                   Home
                 </Link>
               </li>
+
               <li>
                 <Link
-                  to="/about"
+                  to="/Products"
                   className="block hover:text-blue-600 transition font-bold"
                   onClick={toggleMobileMenu}
                 >
-                  About
+                  Product
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/services"
-                  className="block hover:text-blue-600 transition font-bold"
-                  onClick={toggleMobileMenu}
-                >
-                  Services
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/contact"
+                  to="/"
                   className="block hover:text-blue-600 transition font-bold"
                   onClick={toggleMobileMenu}
                 >
@@ -178,28 +188,37 @@ function Header() {
               >
                 <ShoppingCartIcon style={{ color: "black" }} />
               </Link>
-              <button className="bg-white text-blue-600 p-2 rounded-lg hover:bg-blue-100 transition">
-                <PersonIcon style={{ color: "black" }} />
-              </button>
             </div>
 
-            {/* Mobile Login/Register Buttons */}
-            <div className="flex flex-col gap-2 mt-4">
-              <Link
-                to="/login"
-                className="block px-4 py-2 text-center bg-black text-white rounded-lg hover:bg-gray-800 transition font-bold"
-                onClick={toggleMobileMenu}
-              >
-                Login
-              </Link>
-              <Link
-                to="/register"
-                className="block px-4 py-2 text-center bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition font-bold"
-                onClick={toggleMobileMenu}
-              >
-                Registration
-              </Link>
-            </div>
+            {/*Mobile Login/Register හෝ UserTag */}
+            {isLoggedIn ? (
+              <div className="mt-4 pt-4 border-t">
+                <UserTag
+                  imgLink="https://w7.pngwing.com/pngs/529/832/png-transparent-computer-icons-avatar-user-profile-avatar.png"
+                  onLogout={() => {
+                    setIsLoggedIn(false);
+                    toggleMobileMenu();
+                  }}
+                />
+              </div>
+            ) : (
+              <div className="flex flex-col gap-2 mt-4">
+                <Link
+                  to="/login"
+                  className="block px-4 py-2 text-center bg-black text-white rounded-lg hover:bg-gray-800 transition font-bold"
+                  onClick={toggleMobileMenu}
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="block px-4 py-2 text-center bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition font-bold"
+                  onClick={toggleMobileMenu}
+                >
+                  Registration
+                </Link>
+              </div>
+            )}
           </div>
         )}
       </nav>

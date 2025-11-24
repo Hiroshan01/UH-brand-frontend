@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 export default function Banner() {
   const images = [
-    { url: "/banner/UH.png" }, // Adjust path as needed
+    { url: "/banner/UH.png" }, 
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
