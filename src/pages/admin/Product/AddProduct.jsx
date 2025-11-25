@@ -67,8 +67,6 @@ function AddProduct() {
         stock: stock,
       };
 
-      console.log("Product data being sent:", product);
-
       await axios.post(import.meta.env.VITE_API_URL + "product", product, {
         headers: {
           Authorization: "Bearer " + token,
@@ -78,7 +76,6 @@ function AddProduct() {
       toast.success("Product Added Successfully");
       navigate("/admin/products");
     } catch (e) {
-      console.error("Error details:", e);
       toast.error(e.response?.data?.message || "Failed to add product");
     } finally {
       setLoading(false);

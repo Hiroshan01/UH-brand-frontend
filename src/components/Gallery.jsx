@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 function Gallery() {
-  // Sample clothing images - ඔබේ actual images replace කරන්න
   const galleryImages = [
     {
       id: 1,

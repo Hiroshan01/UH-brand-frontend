@@ -14,11 +14,10 @@ function GetUser() {
         .get(import.meta.env.VITE_API_URL + "users/get_users")
         .then((res) => {
           setUsers(res.data);
-          console.log(res.data);
           setIsLoading(false);
         });
     }
-  }, [isLoading]); //[] dependency array
+  }, [isLoading]);
 
   function deleteUser(userId) {
     const token = localStorage.getItem("token");
@@ -126,7 +125,7 @@ function GetUser() {
                             onClick={() => {
                               navigate("/admin/edit-user", {
                                 state: {
-                                  userId: user.userId, // ✅ Make sure this exists
+                                  userId: user._id, 
                                   firstName: user.firstName,
                                   lastName: user.lastName,
                                   email: user.email,
@@ -169,12 +168,6 @@ function GetUser() {
             <p className="text-gray-500 mb-4">
               Hi doing marking increase the customers
             </p>
-            {/* <Link
-              to="/admin/add-product"
-              className="inline-block bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-200 shadow-lg hover:shadow-xl"
-            >
-              Add Product
-            </Link> */}
           </div>
         )}
       </div>

@@ -19,7 +19,6 @@ function Register() {
     }
 
     try {
-      // Assuming VITE_API_URL is correctly configured in your environment
       await axios.post(`${import.meta.env.VITE_API_URL}users`, {
         firstName,
         lastName,
@@ -29,27 +28,22 @@ function Register() {
       toast.success("Registration Successful");
       navigate("/login");
     } catch (e) {
-      // Accessing e.response?.data is safer
       toast.error(e.response?.data?.message || "Registration failed");
     }
   }
 
   return (
- 
     <div className="w-full min-h-screen bg-[url('/hero-1.jpg')] bg-center bg-cover flex flex-col justify-center items-center p-4">
-      
-
       <div className="hidden sm:w-[50%] sm:h-full"> </div>
       <div className="w-full flex justify-center items-center sm:w-[50%] sm:h-full">
         <div className="w-full max-w-sm p-6 backdrop-blur-md bg-white/10 rounded-2xl shadow-2xl flex flex-col justify-center items-center">
-          
           {/* Header */}
           <div className="mb-4">
             <h1 className="font-serif font-bold text-3xl text-white">
               Register <HowToRegIcon fontSize="large" className="text-white" />
             </h1>
           </div>
-          
+
           <input
             onChange={(e) => {
               setFirstName(e.target.value);
@@ -72,7 +66,7 @@ function Register() {
             }}
             placeholder="Email"
             value={email}
-            type="email" 
+            type="email"
             className="w-full h-12 border rounded-lg my-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <input
@@ -84,7 +78,7 @@ function Register() {
             type="password"
             className="w-full h-12 border rounded-lg my-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          
+
           {/* Button: Use w-full for full width on mobile. */}
           <button
             onClick={handleLogin}

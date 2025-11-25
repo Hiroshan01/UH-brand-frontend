@@ -7,6 +7,8 @@ import OrderPage from "./orderPage/OrderPage";
 import GetUser from "./user/GetUser";
 import AddUser from "./user/UserAdd";
 import UpdateUser from "./user/UserUpdate";
+import GetReview from "./review/GetReview";
+import SalesDashboard from "./SalesDashboard";
 
 function AdminPannel() {
   return (
@@ -51,20 +53,11 @@ function AdminPannel() {
       </div>
       <div className="h-screen w-[calc(100%-300px)] bg-white p-8">
         <Routes path="/*">
+          <Route path="/" element={<SalesDashboard />} />
           <Route path="/products" element={<AdminProductPage />} />
           <Route path="/users" element={<GetUser />} />
           <Route path="/orders" element={<OrderPage />} />
-          <Route
-            path="/reviews"
-            element={
-              <div className="flex items-center gap-4">
-                <Star className="w-12 h-12 text-indigo-600" />
-                <h1 className="text-5xl font-bold text-slate-800 bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent">
-                  Reviews
-                </h1>
-              </div>
-            }
-          />
+          <Route path="/reviews" element={<GetReview />} />
 
           <Route path="/add-product" element={<AddProduct />} />
           <Route path="/edit-product" element={<EditProduct />} />

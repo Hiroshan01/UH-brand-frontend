@@ -90,7 +90,7 @@ function UserTag(props) {
     if (userRole === "admin") {
       navigate("/admin");
     } else if (userRole === "customer") {
-      navigate("/customer");
+      navigate("/cart");
     }
     setIsDropdownOpen(false);
   };
@@ -140,7 +140,7 @@ function UserTag(props) {
       {/* Dropdown Menu */}
       {isDropdownOpen && (
         <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
-          {/* Profile Link - Customer හෝ Admin නම් විතරක් පෙන්වන්න */}
+          {/* Profile Link - Customer Admin  */}
           {(userRole === "customer" || userRole === "admin") && (
             <button
               onClick={handleProfileClick}

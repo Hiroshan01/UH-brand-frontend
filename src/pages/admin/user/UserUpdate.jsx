@@ -7,13 +7,16 @@ import mediaUpload from "../../../../utils/mediaUpload";
 function UpdateUser() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [userId, setUserId] = useState(location.state.userId);
-  const [firstName, setFirstName] = useState(location.state.firstName);
-  const [lastName, setLastName] = useState(location.state.lastName);
-  const [email, setEmail] = useState(location.state.email);
+
+  const userId =
+    location.state?.userId || location.state?.id || location.state?._id;
+
+  const [firstName, setFirstName] = useState(location.state?.firstName || "");
+  const [lastName, setLastName] = useState(location.state?.lastName || "");
+  const [email, setEmail] = useState(location.state?.email || "");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState(location.state.role);
-  const [isBlock, setIsBlock] = useState(location.state.isBlock);
+  const [role, setRole] = useState(location.state?.role || "customer");
+  const [isBlock, setIsBlock] = useState(location.state?.isBlock || false);
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -38,7 +41,6 @@ function UpdateUser() {
           imageUrl = await mediaUpload(image);
           toast.dismiss(loadingToast);
           toast.success("Image uploaded successfully");
-          console.log("Uploaded image URL:", imageUrl);
         } catch (uploadError) {
           toast.dismiss(loadingToast);
           toast.error("Image upload failed: " + uploadError);
@@ -48,35 +50,29 @@ function UpdateUser() {
       }
 
       const userData = {
-        userId: userId,
         email: email,
         firstName: firstName,
         lastName: lastName,
-        password: password,
         role: role,
-        isBlock: isBlock === "true",
+        isBlock: isBlock === "true" || isBlock === true,
         ...(imageUrl && { img: imageUrl }),
       };
 
-      console.log("User data being sent:", userData);
-      console.log("Image URL in userData:", userData.img);
+      if (password && password.trim() !== "") {
+        userData.password = password;
+      }
 
-      // ✅ CORRECT - userId in URL, userData as body
-      await axios.put(
-        import.meta.env.VITE_API_URL + "users/" + userId,
-        userData, // This is the request body with all user data
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const apiUrl = import.meta.env.VITE_API_URL + "users/" + userId;
 
+      await axios.put(apiUrl, userData, {
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json",
+        },
+      });
       toast.success("User updated Successfully");
       navigate("/admin/users");
     } catch (e) {
-      console.error("Error details:", e);
       toast.error(e.response?.data?.message || "Failed to update user");
     } finally {
       setLoading(false);
@@ -86,6 +82,12 @@ function UpdateUser() {
   return (
     <div className="w-full h-full overflow-y-auto">
       <div className="max-w-4xl mx-auto p-6">
+        <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <p className="text-sm text-blue-800">
+            <strong>Editing User ID:</strong> {userId}
+          </p>
+        </div>
+
         <h1 className="text-4xl font-bold text-slate-800 mb-8 bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent">
           Update User
         </h1>
@@ -139,19 +141,21 @@ function UpdateUser() {
             />
           </div>
 
-          {/* Password */}
+          {/* Password - Optional */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Password <span className="text-red-500">*</span>
+              Password{" "}
+              <span className="text-gray-500">
+                (Optional - leave blank to keep current)
+              </span>
             </label>
             <input
               type="password"
-              placeholder="Enter Password (min 6 characters)"
+              placeholder="Enter new password or leave blank"
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               minLength={6}
-              required
             />
           </div>
 
@@ -181,13 +185,10 @@ function UpdateUser() {
             </label>
             <select
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition bg-white"
-              value={isBlock}
+              value={isBlock.toString()}
               onChange={(e) => setIsBlock(e.target.value)}
               required
             >
-              <option value="" disabled>
-                Select Account Status
-              </option>
               <option value="false">Active (Not Blocked)</option>
               <option value="true">Blocked</option>
             </select>
@@ -222,10 +223,6 @@ function UpdateUser() {
                 </p>
               </div>
             )}
-            <p className="mt-2 text-xs text-gray-500">
-              💡 If no image is uploaded, the current image will remain
-              unchanged
-            </p>
           </div>
 
           {/* Action Buttons */}

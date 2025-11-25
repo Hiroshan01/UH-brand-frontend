@@ -114,7 +114,6 @@ function CheckOut() {
         toast.success("Place Order Successfully");
       })
       .catch((e) => {
-        console.log(e.response?.data?.message);
         toast.error(e.response?.data?.message || "Failed to place order");
       });
   }

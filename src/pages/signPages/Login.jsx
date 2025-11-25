@@ -3,13 +3,57 @@ import LoginIcon from "@mui/icons-material/Login";
 import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { GrGoogle } from "react-icons/gr";
+import { useGoogleLogin } from "@react-oauth/google";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const navigate = useNavigate();
+
+  const handleGoogleLogin = useGoogleLogin({
+    onSuccess: (res) => {
+      setGoogleLoading(true);
+      const accessToken = res.access_token;
+
+      axios
+        .post(`${import.meta.env.VITE_API_URL}users/login/google`, {
+          accessToken: accessToken,
+        })
+        .then((res) => {
+          toast.success("Google Login Successful!");
+
+          localStorage.setItem("token", res.data.token);
+
+          window.dispatchEvent(new Event("loginSuccess"));
+
+          if (res.data.role === "admin") {
+            navigate("/admin");
+          } else {
+            navigate("/");
+          }
+        })
+        .catch((error) => {
+          if (error.response) {
+            toast.error(error.response.data?.message || "Google login failed");
+          } else if (error.request) {
+            toast.error("Network error. Please check your connection");
+          } else {
+            toast.error("Google login failed. Please try again.");
+          }
+        })
+        .finally(() => {
+          setGoogleLoading(false);
+        });
+    },
+    onError: () => {
+      toast.error("Google authentication failed");
+      setGoogleLoading(false);
+    },
+  });
 
   async function handleLogin() {
     if (!email || !password) {
@@ -112,7 +156,9 @@ function Login() {
             disabled={loading}
             className="w-full h-12 border rounded-lg my-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
           />
-
+          <Link className="text-1xl font-semibold" to="/send-otp">
+            Forget password ?
+          </Link>
           {/* Button: w-full for responsiveness, enhanced styling and loading state */}
           <button
             onClick={handleLogin}
@@ -128,6 +174,24 @@ function Login() {
             ) : (
               <>
                 <LoginIcon /> LOGIN
+              </>
+            )}
+          </button>
+
+          <button
+            onClick={handleGoogleLogin}
+            disabled={loading || googleLoading}
+            className="w-full h-12 mt-6 bg-black border-gray-300 rounded-full text-xl font-bold text-white transition-colors hover:bg-gray-800 disabled:bg-gray-600 disabled:text-gray-300 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          >
+            {googleLoading ? (
+              <>
+                <div className="w-5 h-5 border-3 border-gray-700 border-t-transparent rounded-full animate-spin"></div>
+                Signing in with Google...
+              </>
+            ) : (
+              <>
+                <GrGoogle className="text-xl" />
+                Continue with Google
               </>
             )}
           </button>

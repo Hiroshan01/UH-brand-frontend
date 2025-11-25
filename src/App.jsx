@@ -12,34 +12,34 @@ import Product from "./pages/client/Product";
 import ProductOverview from "./pages/client/ProductOverview";
 import ProductCart from "./pages/client/ProductCart";
 import CheckOut from "./pages/client/CheckOut";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import ForgotPassword from "./pages/signPages/ForgetPassword";
 
 function App() {
+  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
   return (
-    <BrowserRouter>
-      <div>
-        <Toaster position="top-right" />
-        <Header />
-        <Routes path="/*">
-          <Route path="/" element={<Home />} />
+    <GoogleOAuthProvider clientId={googleClientId}>
+      <BrowserRouter>
+        <div>
+          <Toaster position="top-right" />
+          <Header />
+          <Routes path="/*">
+            <Route path="/" element={<Home />} />
 
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/products" element={<Product />} />
-          <Route path="/product-overview/:id" element={<ProductOverview />} />
-          <Route path="/cart" element={<ProductCart />} />
-          <Route path="/checkout" element={<CheckOut />} />
-          {/* 
-          <Route path="/signIn" element={<SignIn />} />
-          <Route path="/signUp" element={<SignUp />} />
-    
-          <Route path="/test-page" element={<TestPage />} /> */}
-          <Route path="/*" element={<h1>404 Not Found!</h1>} />
-
-          <Route path="/admin/*" element={<AdminPannel />} />
-        </Routes>
-        <Footer />
-      </div>
-    </BrowserRouter>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/products" element={<Product />} />
+            <Route path="/product-overview/:id" element={<ProductOverview />} />
+            <Route path="/cart" element={<ProductCart />} />
+            <Route path="/checkout" element={<CheckOut />} />
+            <Route path="/send-otp" element={<ForgotPassword />} />
+            <Route path="/*" element={<h1>404 Not Found!</h1>} />
+            <Route path="/admin/*" element={<AdminPannel />} />
+          </Routes>
+          <Footer />
+        </div>
+      </BrowserRouter>
+    </GoogleOAuthProvider>
   );
 }
 

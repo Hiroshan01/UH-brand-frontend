@@ -4,7 +4,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { LoaderCircle } from "lucide-react"; // 'Loader' is often an older name, 'LoaderCircle' or 'Loader2' is common
 import ImageSlider from "../../components/ImageSlider";
-import { addCart, getCart } from "../../../utils/cart";
+import { addCart } from "../../../utils/cart";
 import { Rating } from "@mui/material";
 import { ChevronRight } from "lucide-react";
 
@@ -27,6 +27,7 @@ function ProductOverview() {
       setReviews(res.data);
     } catch (err) {
       console.error("Failed to fetch reviews:", err);
+      toast.error("Failed to fetch reviews.");
     }
   };
   const handleReviewSubmit = async (e) => {
@@ -92,17 +93,15 @@ function ProductOverview() {
     axios
       .get(import.meta.env.VITE_API_URL + "product/" + productId)
       .then((res) => {
-        console.log(res.data);
         setProduct(res.data);
         setStatus("success");
         fetchReviews(productId);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
         setStatus("error");
         toast.error("Something Went Wrong");
       });
-  }, [productId]); // Added productId as a dependency
+  }, [productId]);
 
   // Loading State
   if (status === "loading") {
@@ -175,8 +174,6 @@ function ProductOverview() {
                     bg-white border-2 border-gray-900 text-gray-900 
                     font-semibold text-lg hover:bg-gray-100 transition-all cursor-pointer"
                   onClick={() => {
-                    console.log("Old cart");
-                    console.log(getCart());
                     addCart(product, 1);
                     toast.success("Product added to cart!");
                   }}

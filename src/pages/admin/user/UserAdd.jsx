@@ -42,7 +42,7 @@ function AddUser() {
           imageUrl = await mediaUpload(image);
           toast.dismiss(loadingToast);
           toast.success("Image uploaded successfully");
-          console.log("Uploaded image URL:", imageUrl);
+  
         } catch (uploadError) {
           toast.dismiss(loadingToast);
           toast.error("Image upload failed: " + uploadError);
@@ -61,9 +61,6 @@ function AddUser() {
         ...(imageUrl && { img: imageUrl }),
       };
 
-      console.log("User data being sent:", userData);
-      console.log("Image URL in userData:", userData.img);
-
       await axios.post(import.meta.env.VITE_API_URL + "users", userData, {
         headers: {
           Authorization: "Bearer " + token,
@@ -74,7 +71,6 @@ function AddUser() {
       toast.success("User Added Successfully");
       navigate("/admin/users");
     } catch (e) {
-      console.error("Error details:", e);
       toast.error(e.response?.data?.message || "Failed to add user");
     } finally {
       setLoading(false);

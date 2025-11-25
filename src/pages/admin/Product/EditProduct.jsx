@@ -69,8 +69,6 @@ function EditProduct() {
         stock: stock,
       };
 
-      console.log("Product data being sent:", product);
-
       await axios.put(
         import.meta.env.VITE_API_URL + "product/" + productId,
         product,
@@ -84,7 +82,6 @@ function EditProduct() {
       toast.success("Product Updated Successfully");
       navigate("/admin/products");
     } catch (e) {
-      console.error("Error details:", e);
       toast.error(e.response?.data?.message || "Failed to add product");
     } finally {
       setLoading(false);
