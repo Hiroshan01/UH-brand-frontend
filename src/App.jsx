@@ -14,6 +14,8 @@ import ProductCart from "./pages/client/ProductCart";
 import CheckOut from "./pages/client/CheckOut";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import ForgotPassword from "./pages/signPages/ForgetPassword";
+import NotFoundPage from "./pages/NotFound";
+import WhatsAppFloat from "./pages/WhatsappFloat";
 
 function App() {
   const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
@@ -33,10 +35,11 @@ function App() {
             <Route path="/cart" element={<ProductCart />} />
             <Route path="/checkout" element={<CheckOut />} />
             <Route path="/send-otp" element={<ForgotPassword />} />
-            <Route path="/*" element={<h1>404 Not Found!</h1>} />
+            <Route path="/*" element={<NotFoundPage />} />
             <Route path="/admin/*" element={<AdminPannel />} />
           </Routes>
           <Footer />
+          <WhatsAppFloat />
         </div>
       </BrowserRouter>
     </GoogleOAuthProvider>

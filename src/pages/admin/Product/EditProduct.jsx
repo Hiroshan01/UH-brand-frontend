@@ -141,6 +141,7 @@ function EditProduct() {
             <option value="Men">Men</option>
             <option value="Women">Women</option>
             <option value="Kids">Kids</option>
+            <option value="Men-Women">Men-Women(Both)</option>
           </select>
           {/* Size */}
           <select
@@ -156,6 +157,7 @@ function EditProduct() {
             <option value="M">M</option>
             <option value="L">L</option>
             <option value="XL">XL</option>
+            <option value="S | M | L | XL">S | M | L | XL</option>
           </select>
           {/* Description */}
           <div>

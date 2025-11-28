@@ -9,6 +9,7 @@ function OrderPage() {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [activeOrder, setActiveOrder] = useState(null);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -49,8 +50,8 @@ function OrderPage() {
     setIsUpdating(true);
     axios
       .put(
-        import.meta.env.VITE_API_URL + `order/${orderId}/${newStatus}`,
-        {},
+        import.meta.env.VITE_API_URL + `order/${orderId}/status`,
+        { status: newStatus },
         {
           headers: {
             Authorization: "Bearer " + token,
@@ -70,6 +71,34 @@ function OrderPage() {
       .catch((e) => {
         toast.error(e.response?.data?.message || "Failed to update status");
         setIsUpdating(false);
+      });
+  };
+
+  const deleteOrder = (orderId) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error("Please login first");
+      return;
+    }
+
+    setIsDeleting(true);
+    axios
+      .delete(import.meta.env.VITE_API_URL + `order/${orderId}`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then(() => {
+        toast.success("Order deleted successfully");
+        setOrders((prevOrders) =>
+          prevOrders.filter((order) => order.orderId !== orderId)
+        );
+        closeModal();
+        setIsDeleting(false);
+      })
+      .catch((e) => {
+        toast.error(e.response?.data?.message || "Failed to delete order");
+        setIsDeleting(false);
       });
   };
 
@@ -108,13 +137,14 @@ function OrderPage() {
                     <h3 className="text-lg font-semibold mb-3 text-gray-700">
                       Customer Information
                     </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                       <p>
                         <strong>Order ID:</strong> {activeOrder.orderId}
                       </p>
                       <p>
                         <strong>Customer Name:</strong> {activeOrder.fullName}
                       </p>
+
                       <p>
                         <strong>Email:</strong> {activeOrder.email}
                       </p>
@@ -136,8 +166,8 @@ function OrderPage() {
                       <p>
                         <strong>Zip Code:</strong> {activeOrder.zipCode}
                       </p>
-                      <p>
-                        <strong>Date:</strong>{" "}
+                      <p className="text-red-800 text-xl">
+                        <strong className="text-black ">Date:</strong>{" "}
                         {new Date(activeOrder.date).toLocaleDateString()}
                       </p>
                       <p>
@@ -155,6 +185,24 @@ function OrderPage() {
                         >
                           {activeOrder.status}
                         </span>
+                      </p>
+                      <p className="text-red-800 text-2xl">
+                        <strong className="text-blue-800 text-2xl">
+                          Size:
+                        </strong>{" "}
+                        {activeOrder.size}
+                      </p>
+                      <p className="text-red-800 text-2xl">
+                        <strong className="text-blue-800 text-2xl">
+                          Color:
+                        </strong>{" "}
+                        {activeOrder.color}
+                      </p>
+                      <p className="text-red-800 text-2xl">
+                        <strong className="text-blue-800 text-2xl">
+                          Category:
+                        </strong>{" "}
+                        {activeOrder.category}
                       </p>
                     </div>
                   </div>
@@ -286,7 +334,7 @@ function OrderPage() {
                         }
                       }}
                       value={activeOrder.status}
-                      disabled={isUpdating}
+                      disabled={isUpdating || isDeleting}
                       className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     >
                       <option value="pending">Pending</option>
@@ -297,21 +345,33 @@ function OrderPage() {
                   </div>
 
                   {/* Action Buttons */}
-                  <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
+                  <div className="flex justify-between items-center pt-4 border-t border-gray-200">
+                    {/* Delete Button - Left Side */}
                     <button
-                      onClick={closeModal}
-                      className="bg-gray-500 text-white py-2 px-6 rounded-md shadow-md hover:bg-gray-600 focus:outline-none transition-all"
-                      disabled={isUpdating}
+                      onClick={() => deleteOrder(activeOrder.orderId)}
+                      className="bg-red-600 text-white py-2 px-6 rounded-md shadow-md hover:bg-red-700 focus:outline-none transition-all disabled:bg-red-300 disabled:cursor-not-allowed"
+                      disabled={isUpdating || isDeleting}
                     >
-                      Close
+                      {isDeleting ? "Deleting..." : "Delete Order"}
                     </button>
-                    <button
-                      onClick={handlePrint}
-                      className="bg-green-500 text-white py-2 px-6 rounded-md shadow-md hover:bg-green-600 focus:outline-none transition-all"
-                      disabled={isUpdating}
-                    >
-                      Print
-                    </button>
+
+                    {/* Other Buttons - Right Side */}
+                    <div className="flex gap-3">
+                      <button
+                        onClick={closeModal}
+                        className="bg-gray-500 text-white py-2 px-6 rounded-md shadow-md hover:bg-gray-600 focus:outline-none transition-all disabled:bg-gray-300 disabled:cursor-not-allowed"
+                        disabled={isUpdating || isDeleting}
+                      >
+                        Close
+                      </button>
+                      <button
+                        onClick={handlePrint}
+                        className="bg-green-500 text-white py-2 px-6 rounded-md shadow-md hover:bg-green-600 focus:outline-none transition-all disabled:bg-green-300 disabled:cursor-not-allowed"
+                        disabled={isUpdating || isDeleting}
+                      >
+                        Print
+                      </button>
+                    </div>
                   </div>
                 </div>
               )}
@@ -380,7 +440,7 @@ function OrderPage() {
                     <td className="px-6 py-4 text-sm font-medium text-gray-900">
                       {item.district?.name || item.district}
                     </td>
-                    <td className="px-6 py-4 text-sm font-medium text-gray-900">
+                    <td className="px-6 py-4 text-sm font-medium text-blue-700">
                       {new Date(item.date).toLocaleDateString()}
                     </td>
                     <td className="px-6 py-4 text-sm font-medium text-gray-900">

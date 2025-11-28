@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import PersonIcon from "@mui/icons-material/Person";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import SearchIcon from "@mui/icons-material/Search";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { useEffect, useState } from "react";
@@ -46,7 +45,7 @@ function Header() {
         {/* Top Bar - Logo, Icons, Hamburger */}
         <div className="flex justify-between items-center">
           {/* Logo */}
-          <div className="text-2xl font-bold">
+          <div className="text-2xl font-serif">
             <Link to="/">
               <img
                 src={logo}
@@ -59,20 +58,26 @@ function Header() {
           {/* Desktop Menu Items */}
           <ul className="hidden md:flex gap-6">
             <li>
-              <Link to="/" className="hover:text-gray-400 transition font-bold">
+              <Link
+                to="/"
+                className="hover:text-gray-400 transition font-serif"
+              >
                 Home
               </Link>
             </li>
             <li>
               <Link
                 to="/Products"
-                className="hover:text-gray-400 transition font-bold"
+                className="hover:text-gray-400 transition font-serif"
               >
                 Product
               </Link>
             </li>
             <li>
-              <Link to="/" className="hover:text-gray-400 transition font-bold">
+              <Link
+                to="/"
+                className="hover:text-gray-400 transition font-serif"
+              >
                 Contact
               </Link>
             </li>
@@ -80,9 +85,6 @@ function Header() {
 
           {/* Desktop Icons and User Section */}
           <div className="hidden md:flex gap-2 items-center">
-            <button className="bg-white text-blue-600 p-2 rounded-lg hover:bg-blue-100 transition">
-              <SearchIcon style={{ color: "black" }} />
-            </button>
             <Link
               to="/cart"
               className="bg-white text-blue-600 p-2 rounded-lg hover:bg-blue-100 transition"
@@ -111,14 +113,14 @@ function Header() {
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl py-2 z-50">
                     <Link
                       to="/login"
-                      className="block px-4 py-2 text-gray-800 hover:bg-blue-100 transition font-bold"
+                      className="block px-4 py-2 text-gray-800 hover:bg-blue-100 transition font-serif"
                       onClick={() => setIsDropDown(false)}
                     >
                       Login
                     </Link>
                     <Link
                       to="/register"
-                      className="block px-4 py-2 text-gray-800 hover:bg-blue-100 transition font-bold"
+                      className="block px-4 py-2 text-gray-800 hover:bg-blue-100 transition font-serif"
                       onClick={() => setIsDropDown(false)}
                     >
                       Registration
@@ -150,7 +152,7 @@ function Header() {
               <li>
                 <Link
                   to="/"
-                  className="block hover:text-blue-600 transition font-bold"
+                  className="block hover:text-blue-600 transition font-serif"
                   onClick={toggleMobileMenu}
                 >
                   Home
@@ -160,7 +162,7 @@ function Header() {
               <li>
                 <Link
                   to="/Products"
-                  className="block hover:text-blue-600 transition font-bold"
+                  className="block hover:text-blue-600 transition font-serif"
                   onClick={toggleMobileMenu}
                 >
                   Product
@@ -169,7 +171,7 @@ function Header() {
               <li>
                 <Link
                   to="/"
-                  className="block hover:text-blue-600 transition font-bold"
+                  className="block hover:text-blue-600 transition font-serif"
                   onClick={toggleMobileMenu}
                 >
                   Contact
@@ -179,9 +181,6 @@ function Header() {
 
             {/* Mobile Icons */}
             <div className="flex gap-2 mt-4 pt-4 border-t">
-              <button className="bg-white text-blue-600 p-2 rounded-lg hover:bg-blue-100 transition">
-                <SearchIcon style={{ color: "black" }} />
-              </button>
               <Link
                 to="/cart"
                 className="bg-white text-blue-600 p-2 rounded-lg hover:bg-blue-100 transition"
@@ -205,14 +204,14 @@ function Header() {
               <div className="flex flex-col gap-2 mt-4">
                 <Link
                   to="/login"
-                  className="block px-4 py-2 text-center bg-black text-white rounded-lg hover:bg-gray-800 transition font-bold"
+                  className="block px-4 py-2 text-center bg-black text-white rounded-lg hover:bg-gray-800 transition font-serif"
                   onClick={toggleMobileMenu}
                 >
                   Login
                 </Link>
                 <Link
                   to="/register"
-                  className="block px-4 py-2 text-center bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition font-bold"
+                  className="block px-4 py-2 text-center bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition font-serif"
                   onClick={toggleMobileMenu}
                 >
                   Registration
